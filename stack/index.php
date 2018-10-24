@@ -31,6 +31,10 @@
         if (is_numeric($value)) {
             $value = (int)$value;
             addElementToStack($value);
+            addElementToBinTree($value);
+
+            var_dump($_SESSION['binTree']);
+
         } else {
             $massage = 'Необходимо ввести целочисленное число!';
             setSession('massageError', $massage);

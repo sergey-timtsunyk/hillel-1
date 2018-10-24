@@ -58,3 +58,48 @@ function getElementFromStack()
 
     return $value;
 }
+
+
+
+function addElementToBinTree($value) {
+    $binTree = $_SESSION['binTree'];
+
+    if (empty($binTree)) {
+        $binTree = [
+            'value' => $value,
+            'left' => null,
+            'right' => null,
+        ];
+    } else {
+        addToPoint($binTree, $value);
+    }
+    setSession('binTree', $binTree);
+}
+
+
+function addToPoint(&$binTree, $value) {
+    if ($binTree['value'] > $value){
+        if (empty($binTree['left'])){
+            $binTree['left'] = [
+                'value' => $value,
+                'left' => null,
+                'right' => null,
+            ];
+        } else {
+            addToPoint($binTree['left'], $value);
+        }
+    }
+
+    if ($binTree['value'] < $value){
+        if (empty($binTree['right'])) {
+            $binTree['right'] = [
+                'value' => $value,
+                'left' => null,
+                'right' => null,
+            ];
+        } else {
+             addToPoint($binTree['right'], $value);
+        }
+    }
+
+}
