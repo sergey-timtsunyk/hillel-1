@@ -2,22 +2,69 @@
 	require_once 'User.php';
 	require_once 'Employ.php';
 	require_once 'Manager.php';
+	require_once 'Point.php';
+	require_once 'PointPrinter.php';
+	require_once 'PointPrinterString.php';
 
+    $pp = new PointPrinter();
+	$point = new Point($pp,2,46);
+
+
+	$str = serialize($point);
+
+	var_dump($str);
+
+	$pointUn = unserialize($str);
+
+	$pointUn->printX();
+	$pointUn->printY();
+
+
+    $point->printX();
+    $point->printy();
+    echo '---------------<br/>';
+
+	$point(56, 78);
+
+    $point->printX();
+    $point->printy();
+    echo '---------------<br/>';
+
+
+
+	$pp = new PointPrinterString();
+
+    $points = [
+        new Point($pp,2,46),
+        new Point($pp,78,34),
+        new Point($pp,12,49),
+        new Point($pp,32,67),
+        new Point($pp,1,89),
+    ];
+
+    /** @var Point $point */
+    foreach ($points as $point) {
+        $point->printX();
+        $point->printy();
+        echo '---------------<br/>';
+    }
 
 
     $employ = new Employ('John', 'Veeck', 'lead', 3000);
-
-
-    echo $employ->role;
-    echo'<br>';
-
     $employ->role = 'administrator';
+    $employ->date = '2018-09-23';
 
-    echo $employ->role;
+    if (isset($employ->role) && $employ->role === 'administrator') {
+        echo '<b>Вы вошли как Admin!</b>';
+    }
+
+    var_dump($employ->getRole());
+    var_dump($employ->getLevel());
+    var_dump($employ->getDate());
+    var_dump($employ->getStatus());
+
 
     echo'<br>';
-
-    //var_dump($employ->getSettings());
 
     $manager1 = new Manager('Chuck', 'Norris', 'Unreal', 1000000);
 
@@ -37,12 +84,13 @@
         $manager2,
     ];
 
+
     echo '<br>';
     echo 'Управленцы: <br>';
     echo '<ol>';
     /** @var Manager $manager */
     foreach ($managers as $manager) {
-        echo "<li>{$manager->getInfo()}</li>";
+        echo "<li>{$manager}</li>";
 
         if ($manager->hasEmployees()) {
             $employees = $manager->getEmployees();
@@ -50,7 +98,7 @@
             echo '<ul>';
             /** @var Employ $employ */
             foreach ($employees as $employ) {
-                echo "<li>{$employ->getInfo()}</li>";
+                echo "<li>{$employ}</li>";
             }
             echo '</ul>';
         }

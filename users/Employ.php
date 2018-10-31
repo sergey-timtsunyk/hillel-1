@@ -23,6 +23,33 @@ class Employ extends User
         ];
     }
 
+    public function __call(string $name, array $arguments)
+    {
+        $method = substr($name, 0, 3);
+        $property = strtolower(substr($name, 3));
+
+        if ($method === 'get') {
+            return $this->$property;
+        }
+        if ($method === 'set' && count($arguments) === 1) {
+            $this->$property = current($arguments);
+        }
+
+        return false;
+    }
+
+    public function __isset(string $name)
+    {
+        return key_exists($name, $this->settings);
+    }
+
+    public function __unset($name)
+    {
+        if (key_exists($name, $this->settings)) {
+            unset($this->settings[$name]);
+        }
+    }
+
     public function __get($name)
     {
        return key_exists($name, $this->settings) ? $this->settings[$name] : null;
@@ -59,6 +86,11 @@ class Employ extends User
     public function getSettings(): array
     {
         return $this->settings;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getInfo();
     }
 
     /**
