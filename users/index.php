@@ -5,6 +5,19 @@
 	require_once 'Point.php';
 	require_once 'PointPrinter.php';
 	require_once 'PointPrinterString.php';
+	require_once 'DeserializerUser.php';
+
+    $employ = new Employ('John', 'Veeck', 'lead', 3000);
+    $pp = new PointPrinter();
+
+
+
+    $obj1 = DeserializerUser::do(serialize($employ));
+    $obj2 = DeserializerUser::do(serialize($pp));
+
+
+    var_dump($obj1, $obj2);
+
 
     $pp = new PointPrinter();
 	$point = new Point($pp,2,46);
