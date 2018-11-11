@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <employ>
+        <item>
+            <firstName>Genry</firstName>
+            <lastName>Duglas</lastName>
+            <position stavca="1500" >engineer</position>
+        </item>
+        <item>
+            <firstName>Olan</firstName>
+            <lastName>Patryk</lastName>
+            <position stavca="1300" >manager</position>
+        </item>
+        <item>
+            <firstName>Helen</firstName>
+            <lastName>Patryk</lastName>
+            <position stavca="1000" >engineer</position>
+        </item>
+    </employ>
+</root>

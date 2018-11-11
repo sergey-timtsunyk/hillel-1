@@ -1,7 +1,6 @@
 <?php
 namespace User;
 
-use Files\Xml\Reader;
 
 abstract class User
 {
@@ -17,8 +16,6 @@ abstract class User
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         self::$countUser++;
-
-        new Reader();
     }
 
     abstract public function getInfo(): string;

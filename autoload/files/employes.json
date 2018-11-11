@@ -1,4 +1,8 @@
 [
   {"firstName":"Genry","lastName":"Duglas","position":"engineer"},
-  {"firstName":"Olan","lastName":"Patryk","position":"manager"}
+  {"firstName":"Olan","lastName":"Patryk","position":"manager"},
+  {"firstName":"Piter","lastName":"Patryk","position":"manager"},
+  {"firstName":"Helen","lastName":"Patryk","position":"manager"},
+  {"firstName":"Lina","lastName":"Patryk","position":"manager"},
+  {"firstName":"Lina","lastName":"Patryk","position":"manager"}
 ]

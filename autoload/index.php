@@ -6,13 +6,42 @@
     use Files\Xml\Reader as XmlRead;
     use Files\Json\Reader as JsonRead;
 
-    $employ = new Employ('Genry', 'Duglas', 'dev', 3000);
 
-    $readXml = new XmlRead();
-    $readJson = new JsonRead();
+    $reader = new XmlRead(__DIR__ . '/files/employes.xml');
+    $xml = $reader->getXml();
 
-    $connectionDB = new DB\Connection();
+    $convertToEmploy = new \Convert\EmployFromXml($xml);
 
-    $str = json_encode([$employ->toArray(),]);
+    $convertToEmploy->convert();
+    $employes = $convertToEmploy->getArrayEmploy();
 
-    var_dump($str);
+
+
+/*    $reader = new JsonRead(__DIR__ . '/files/employes.json');
+
+    $json = $reader->getJson();
+
+
+    $convertToEmploy = new \Convert\EmployFromJson($json);
+
+    $convertToEmploy->convert();
+    $employes = $convertToEmploy->getArrayEmploy();*/
+
+
+    echo "<h1>Employ</h1> <table border=\"1\" style=\"width:100%\">
+  <tr>
+    <th>First name</th>
+    <th>Last name</th> 
+    <th>Position</th>
+  </tr>";
+
+    /** @var Employ $employ */
+    foreach ($employes as $employ) {
+        echo "<tr>
+            <td>{$employ->getFirstName()}</td>
+            <td>{$employ->getLastName()}</td>
+            <td>{$employ->getPosition()}</td>
+          </tr>";
+    }
+   echo "</table>";
+   echo "<h1>Manager</h1>";
