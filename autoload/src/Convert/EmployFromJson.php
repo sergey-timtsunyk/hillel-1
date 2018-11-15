@@ -26,7 +26,7 @@ class EmployFromJson
 
     }
 
-    public function getArrayEmploy(): array
+    public function getArray(): array
     {
         return $this->arr;
     }
