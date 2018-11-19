@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Story</title>
+</head>
+<body>
+
+<form id="form">
+    <label>Введите текст</label>
+    <input id="input-text" type="text">
+
+
+
+    <input type="button" value="Добавить" name="Добавить" onclick="
+        var element1 = document.createElement('input');
+        element1.type = 'text';
+        element1.name = 'input_text[]';
+        document.getElementById('form').appendChild(element1);
+    ">
+
+</form>
+
+
+
+    <p id="test" class="text"></p>
+    <p class="text"></p>
+
+    <script type="text/javascript">
+        document.getElementById("test").innerHTML = "Hello JavaScript!";
+        var t =  document.getElementsByClassName("text");
+        t.item(0).setAttribute('style', 'color: red');
+        t.item(1).innerHTML = 'Тестовый тег!';
+        t.item(1).setAttribute('style', 'color: red');
+
+        console.log(t);
+    </script>
+</body>
+</html>
+
+
+<?php
+?>
