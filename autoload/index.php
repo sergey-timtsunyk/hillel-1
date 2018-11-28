@@ -5,8 +5,7 @@
     use User\Employ;
     use Files\Xml\Reader as XmlRead;
     use Files\Json\Reader as JsonRead;
-
-
+    
     $reader = new XmlRead(__DIR__ . '/files/employes.xml');
     $xml = $reader->getXml();
 
