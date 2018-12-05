@@ -6,15 +6,33 @@
  */
 
 
+include 'User.php';
+
 $dsn = 'mysql:host=localhost;dbname=test';
 $username = 'root';
-$passwd = '123';
+$password = '123';
 $options = [];
 
-$pdo = new PDO($dsn, $username, $passwd, $options);
+$pdo = new PDO($dsn, $username, $password, $options);
 
 
-$st = $pdo->query('SELECT * FROM profile', PDO::FETCH_ASSOC);
+var_dump($pdo->exec('UPDATE user SET last_login = "2018-11-04 16:02:33" WHERE id = 2'));
 
-var_dump($st->execute());
-var_dump($st->fetchAll());
+
+$statement = $pdo->query("SELECT * FROM user");
+$statement->setFetchMode(
+    PDO::FETCH_CLASS,
+    'User'
+);
+
+$userArray =  $statement->fetchAll();
+
+/** @var User $user */
+foreach ($userArray as $user) {
+    echo $user->getLogin() . '['. $user->getLastLogin() . ']<br/>';
+}
+
+
+echo '<pre>';
+var_dump($userArray);
+echo '</pre>';
