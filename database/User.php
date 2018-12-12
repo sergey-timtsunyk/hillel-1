@@ -6,6 +6,7 @@ class User
     private $login;
     private $status;
     private $last_login;
+    private $password;
 
     public function getLogin(): string
     {
@@ -25,5 +26,10 @@ class User
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
     }
 }
