@@ -21,4 +21,9 @@ class User
     {
         return $this->last_login;
     }
+
+    public function getId()
+    {
+        return $this->id;
+    }
 }

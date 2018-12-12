@@ -1,23 +1,13 @@
 <?php
-/**
- * Project: hillel-1
- * User: <serhii.tymtsunyk@ekingdom.tech>
- * Date: 2018-11-28
- */
-
 
 include 'User.php';
 
-$dsn = 'mysql:host=localhost;dbname=test';
+$dsn = 'mysql:host=localhost;dbname=my_test';
 $username = 'root';
 $password = '123';
 $options = [];
 
 $pdo = new PDO($dsn, $username, $password, $options);
-
-
-var_dump($pdo->exec('UPDATE user SET last_login = "2018-11-04 16:02:33" WHERE id = 2'));
-
 
 $statement = $pdo->query("SELECT * FROM user");
 $statement->setFetchMode(
@@ -27,12 +17,21 @@ $statement->setFetchMode(
 
 $userArray =  $statement->fetchAll();
 
+echo "<h1>Users</h1> <table border=\"1\" style=\"width:100%\">
+  <tr>
+    <th>ID</th>
+    <th>Login</th> 
+    <th>Last login</th>
+   
+  </tr>";
+
 /** @var User $user */
 foreach ($userArray as $user) {
-    echo $user->getLogin() . '['. $user->getLastLogin() . ']<br/>';
+    echo "<tr>
+        <td>{$user->getId()}</td>
+        <td>{$user->getLogin()}</td>
+        <td>{$user->getLastLogin()}</td>
+        
+      </tr>";
 }
-
-
-echo '<pre>';
-var_dump($userArray);
-echo '</pre>';
+echo "</table>";
