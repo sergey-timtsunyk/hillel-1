@@ -1,18 +1,16 @@
 <?php
-include 'User.php';
-include 'ConnectDb.php';
+include 'src/User.php';
+include 'src/UserDb.php';
+include 'src/ConnectDb.php';
 
 $pdo = ConnectDb::get();
+$userDb = new UserDb($pdo);
 
 $user = null;
 
 if (key_exists('id', $_GET)) {
-    $statement = $pdo->query(
-        sprintf("SELECT * FROM user WHERE id = %s", $_GET['id'])
-    );
-
     /** @var User $user */
-    $user = $statement->fetchObject('User');
+    $user = $userDb->getUser($_GET['id']);
 }
 
 if (!$user) {

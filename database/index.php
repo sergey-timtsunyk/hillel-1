@@ -1,26 +1,17 @@
 <?php
 
-include 'User.php';
-include 'ConnectDb.php';
+include 'src/User.php';
+include 'src/UserDb.php';
+include 'src/ConnectDb.php';
 
 $pdo = ConnectDb::get();
-
+$userDb = new UserDb($pdo);
 
 if (!empty($_POST) && key_exists('id', $_POST)) {
-    editUser();
+    $userDb->editUser($_POST['id'], $_POST['login'], $_POST['password']);
 } elseif (!empty($_POST)) {
-    createUser();
+    $userDb->createUser($_POST['login'], $_POST['password']);
 }
-
-
-$statement = $pdo->query("SELECT * FROM user");
-$statement->setFetchMode(
-    PDO::FETCH_CLASS,
-    'User'
-);
-
-
-$userArray =  $statement->fetchAll();
 
 echo "<h1>Users</h1> <table border=\"1\" style=\"width:100%\">
   <a href='user_form.php'>Добавить</a>
@@ -32,7 +23,7 @@ echo "<h1>Users</h1> <table border=\"1\" style=\"width:100%\">
   </tr>";
 
 /** @var User $user */
-foreach ($userArray as $user) {
+foreach ($userDb->getAllUsers() as $user) {
     echo "<tr>
         <td>{$user->getId()}</td>
         <td>{$user->getLogin()}</td>
@@ -44,13 +35,3 @@ foreach ($userArray as $user) {
       </tr>";
 }
 echo "</table>";
-
-function editUser(PDO $pdo, $id, $login, $password)
-{
-    $pdo->query(sprintf('UPDATE user SET  WHERE id = %s', $id));
-}
-
-function createUser(PDO $pdo, $login, $password)
-{
-
-}
