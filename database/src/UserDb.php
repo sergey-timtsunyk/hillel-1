@@ -63,4 +63,13 @@ class UserDb
 
         return $statement->fetchObject('User');
     }
+
+    public function deleteUser($id)
+    {
+        $result = $this->pdo->exec(sprintf("DELETE FROM user WHERE id = %s", $id));
+
+        if ($result === false) {
+            var_dump($this->pdo->errorInfo());
+        }
+    }
 }

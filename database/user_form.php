@@ -17,6 +17,7 @@ if (!$user) {
     echo "
     <h1>Добавить нового пользователя</h1>
     <form action='index.php' method='post'>
+        <input type='hidden' name='action' value='create'>
         <label>Login</label><br>
         <input type='text' name='login'><br>
         <label>Password</label><br>
@@ -28,6 +29,7 @@ if (!$user) {
     echo "
     <h1>Редактировать пользователя</h1>
     <form action='index.php' method='post'>
+        <input type='hidden' name='action' value='update'>
         <input type='hidden' name='id' value='{$user->getId()}'>
         <label>Login</label><br>
         <input type='text' name='login' value='{$user->getLogin()}'><br>

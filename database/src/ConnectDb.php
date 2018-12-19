@@ -9,7 +9,6 @@ class ConnectDb
         $password = '123';
         $options = [];
 
-
         return new PDO($dsn, $username, $password, $options);
     }
 }

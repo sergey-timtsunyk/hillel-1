@@ -7,10 +7,14 @@ include 'src/ConnectDb.php';
 $pdo = ConnectDb::get();
 $userDb = new UserDb($pdo);
 
-if (!empty($_POST) && key_exists('id', $_POST)) {
-    $userDb->editUser($_POST['id'], $_POST['login'], $_POST['password']);
-} elseif (!empty($_POST)) {
-    $userDb->createUser($_POST['login'], $_POST['password']);
+
+
+if (!empty($_POST)  && key_exists('action', $_POST)) {
+    switch ($_POST['action']) {
+        case 'create' : $userDb->createUser($_POST['login'], $_POST['password']); break;
+        case 'update' : $userDb->editUser($_POST['id'], $_POST['login'], $_POST['password']); break;
+        case 'delete' : $userDb->deleteUser($_POST['id']); break;
+    }
 }
 
 echo "<h1>Users</h1> <table border=\"1\" style=\"width:100%\">
@@ -30,7 +34,7 @@ foreach ($userDb->getAllUsers() as $user) {
         <td>{$user->getLastLogin()}</td>
         <td>
             <a href='user_form.php?id={$user->getId()}'>Редактировать</a>
-            <a href='delete.php?model=user&id={$user->getId()}'>Удалить</a>
+            <a href='delete.php?id={$user->getId()}'>Удалить</a>
         </td>
       </tr>";
 }
