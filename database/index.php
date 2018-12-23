@@ -1,41 +1,5 @@
 <?php
 
-include 'src/User.php';
-include 'src/UserDb.php';
-include 'src/ConnectDb.php';
-
-$pdo = ConnectDb::get();
-$userDb = new UserDb($pdo);
-
-
-
-if (!empty($_POST)  && key_exists('action', $_POST)) {
-    switch ($_POST['action']) {
-        case 'create' : $userDb->createUser($_POST['login'], $_POST['password']); break;
-        case 'update' : $userDb->editUser($_POST['id'], $_POST['login'], $_POST['password']); break;
-        case 'delete' : $userDb->deleteUser($_POST['id']); break;
-    }
-}
-
-echo "<h1>Users</h1> <table border=\"1\" style=\"width:100%\">
-  <a href='user_form.php'>Добавить</a>
-  <tr>
-    <th>ID</th>
-    <th>Login</th> 
-    <th>Last login</th>
-    <th>Action</th>
-  </tr>";
-
-/** @var User $user */
-foreach ($userDb->getAllUsers() as $user) {
-    echo "<tr>
-        <td>{$user->getId()}</td>
-        <td>{$user->getLogin()}</td>
-        <td>{$user->getLastLogin()}</td>
-        <td>
-            <a href='user_form.php?id={$user->getId()}'>Редактировать</a>
-            <a href='delete.php?id={$user->getId()}'>Удалить</a>
-        </td>
-      </tr>";
-}
-echo "</table>";
+echo '<a href="user/index.php">Пользователи</a><br>';
+echo '<a href="country/index.php">Страны</a><br>';
+echo '<a href="city/index.php">Города</a><br>';

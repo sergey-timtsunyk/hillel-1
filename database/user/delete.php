@@ -1,7 +1,7 @@
 <?php
-include 'src/User.php';
-include 'src/UserDb.php';
-include 'src/ConnectDb.php';
+require_once '../src/User.php';
+require_once '../src/UserDb.php';
+require_once '../src/ConnectDb.php';
 
 $pdo = ConnectDb::get();
 $userDb = new UserDb($pdo);
