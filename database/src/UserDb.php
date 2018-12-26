@@ -1,5 +1,7 @@
 <?php
 
+require_once 'src/User.php';
+
 class UserDb
 {
     private $pdo;
@@ -16,8 +18,13 @@ class UserDb
             return;
         }
 
-        $result = $this->pdo->exec(sprintf("UPDATE user SET `login`='%s', `password`='%s' WHERE id = %s", $login, $password,  $id));
+        $stmt = $this->pdo->prepare("UPDATE user SET `login`=:login, `password`=:password WHERE id = :id");
 
+        $stmt->bindValue('login', $login, PDO::PARAM_STR);
+        $stmt->bindValue('password', $password, PDO::PARAM_STR);
+        $stmt->bindValue('id', $id, PDO::PARAM_INT);
+
+        $result =  $stmt->execute();
         if ($result === false) {
             var_dump($this->pdo->errorInfo());
         }
@@ -30,7 +37,8 @@ class UserDb
             return;
         }
 
-        $result = $this->pdo->exec(sprintf("INSERT INTO user(`login`, `password`) VALUE ('%s', '%s')", $login, $password));
+        $stmt = $this->pdo->prepare("INSERT INTO user(`login`, `password`) VALUE (?, ?)");
+        $result =  $stmt->execute([$login, $password]);
 
         if ($result === false) {
             var_dump($this->pdo->errorInfo());
