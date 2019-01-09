@@ -3,31 +3,32 @@
 require_once 'src/ConnectDb.php';
 require_once 'src/Controller/UserController.php';
 require_once 'src/Controller/CountryController.php';
+require_once 'src/Controller/CitiesController.php';
+require_once 'src/Controller/MainController.php';
 
 $pdo = ConnectDb::get();
 
 $controllers = [
     'users' => new UserController($pdo),
     'countries' => new CountryController($pdo),
+    'cities' => new CitiesController($pdo),
+    'main' => new MainController(),
 ];
 
-list($controllerKey, $actionKey) = explode('/', ltrim($_SERVER['PATH_INFO'], '/'));
+if (array_key_exists('PATH_INFO', $_SERVER)) {
+    $pathInfo = ltrim($_SERVER['PATH_INFO'], '/');
+} else {
+    $pathInfo = 'main/index';
+}
+
+list($controllerKey, $actionKey) = explode('/', $pathInfo);
 
 $controller = $controllers[$controllerKey];
 
 $action = $actionKey . 'Action';
-
 $result = $controller->$action();
-
 
 $data = $result['data'];
 $template = 'templates/'.$result['view'].'.php';
 
 require_once $template;
-
-
-/*
-echo '<a href="user/index.php">Пользователи</a><br>';
-echo '<a href="country/index.php">Страны</a><br>';
-echo '<a href="city/index.php">Города</a><br>';
-*/

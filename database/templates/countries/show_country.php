@@ -1,8 +1,8 @@
 <?php
 
 echo "<h1>Countries</h1> <table border='1' style='width:80%'>
-  <a href='../index.php'>На главную</a>|
-  <a href='form.php'>Добавить</a>
+  <a href='/'>На главную</a>|
+  <a href='/countries/add'>Добавить</a>
   <tr>
     <th>ID</th>
     <th>Название</th> 
@@ -19,8 +19,8 @@ foreach ($data['countries'] as $country) {
         <td>{$country->getCode()}</td>
         <td>{$country->getPhoneCode()}</td>
         <td>
-            <a href='form.php?id={$country->getId()}'>Редактировать</a>
-            <a href='delete.php?id={$country->getId()}'>Удалить</a>
+            <a href='/countries/edit?id={$country->getId()}'>Редактировать</a>
+            <a href='/countries/delete?id={$country->getId()}'>Удалить</a>
         </td>
       </tr>";
 }

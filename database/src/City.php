@@ -5,6 +5,7 @@ class City
     private $id;
     private $name;
     private $country_id;
+    private $country_name;
 
     /**
      * @return mixed
@@ -28,6 +29,14 @@ class City
     public function getCountryId()
     {
         return $this->country_id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountryName()
+    {
+        return $this->country_name;
     }
 
     public function update($name, $countryId)

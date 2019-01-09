@@ -1,5 +1,7 @@
 <?php
 
+require_once 'City.php';
+
 class CityDb
 {
     /**
@@ -73,7 +75,12 @@ class CityDb
     public function getCity($id)
     {
         $statement = $this->pdo->query(
-            sprintf("SELECT * FROM city WHERE id = %s", $id)
+            sprintf("
+              SELECT ct.id, ct.name, cr.name as country_name
+                FROM city ct
+                LEFT JOIN country cr on ct.country_id = cr.id
+                WHERE id = %s", $id
+            )
         );
 
         return $statement->fetchObject('City');
@@ -84,7 +91,11 @@ class CityDb
      */
     public function getAll()
     {
-        $statement = $this->pdo->query("SELECT * FROM city");
+        $statement = $this->pdo->query("
+          SELECT ct.id, ct.name, cr.name as country_name
+            FROM city ct
+            LEFT JOIN country cr on ct.country_id = cr.id;"
+        );
         $statement->setFetchMode(
             PDO::FETCH_CLASS,
             'City'
