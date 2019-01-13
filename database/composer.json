@@ -1,0 +1,20 @@
+{
+    "name": "sergey/database",
+    "authors": [
+        {
+            "name": "Serhii Tymtsunyk"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Tmp\\": "templates/"
+        }
+    },
+    "require": {
+        "php": "^7.1",
+        "dannyvankooten/php-router": "^1.2@alpha"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

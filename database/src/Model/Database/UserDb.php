@@ -1,12 +1,14 @@
 <?php
 
-require_once 'src/User.php';
+namespace App\Model\Database;
+
+use App\Model\User;
 
 class UserDb
 {
     private $pdo;
 
-    public function __construct(PDO $pdo)
+    public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
@@ -20,9 +22,9 @@ class UserDb
 
         $stmt = $this->pdo->prepare("UPDATE user SET `login`=:login, `password`=:password WHERE id = :id");
 
-        $stmt->bindValue('login', $login, PDO::PARAM_STR);
-        $stmt->bindValue('password', $password, PDO::PARAM_STR);
-        $stmt->bindValue('id', $id, PDO::PARAM_INT);
+        $stmt->bindValue('login', $login, \PDO::PARAM_STR);
+        $stmt->bindValue('password', $password, \PDO::PARAM_STR);
+        $stmt->bindValue('id', $id, \PDO::PARAM_INT);
 
         $result =  $stmt->execute();
         if ($result === false) {
@@ -52,8 +54,8 @@ class UserDb
     {
         $statement = $this->pdo->query("SELECT * FROM user");
         $statement->setFetchMode(
-            PDO::FETCH_CLASS,
-            'User'
+            \PDO::FETCH_CLASS,
+            User::class
         );
 
         return $statement->fetchAll();
@@ -69,7 +71,7 @@ class UserDb
             sprintf("SELECT * FROM user WHERE id = %s", $id)
         );
 
-        return $statement->fetchObject('User');
+        return $statement->fetchObject(User::class);
     }
 
     public function deleteUser($id)

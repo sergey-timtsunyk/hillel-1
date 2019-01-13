@@ -1,34 +1,40 @@
 <?php
 
-require_once 'src/ConnectDb.php';
-require_once 'src/Controller/UserController.php';
-require_once 'src/Controller/CountryController.php';
-require_once 'src/Controller/CitiesController.php';
-require_once 'src/Controller/MainController.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-$pdo = ConnectDb::get();
+#require_once 'autoload_custom.php';
 
-$controllers = [
-    'users' => new UserController($pdo),
-    'countries' => new CountryController($pdo),
-    'cities' => new CitiesController($pdo),
-    'main' => new MainController(),
-];
+use App\Serves\ConnectDb;
 
-if (array_key_exists('PATH_INFO', $_SERVER)) {
-    $pathInfo = ltrim($_SERVER['PATH_INFO'], '/');
-} else {
-    $pathInfo = 'main/index';
+try {
+    $pdo = ConnectDb::get();
+
+    $controllers = [
+        'users' => new App\Controller\UserController($pdo),
+        'countries' => new App\Controller\CountryController($pdo),
+        'cities' => new App\Controller\CitiesController($pdo),
+        'main' => new App\Controller\MainController(),
+    ];
+
+    $pathInfo = current(explode('?', $_SERVER['REQUEST_URI']));
+    $pathInfo = ltrim($pathInfo, '/');
+
+    if (empty($pathInfo)) {
+        $pathInfo = 'main/index';
+    }
+
+    list($controllerKey, $actionKey) = explode('/', $pathInfo);
+
+    $controller = $controllers[$controllerKey];
+
+    $action = $actionKey . 'Action';
+    $result = $controller->$action();
+
+    $data = $result['data'];
+    $template = 'templates/'.$result['view'].'.php';
+
+    require_once $template;
+
+} catch (\LogicException $e) {
+    echo ($e->getMessage());
 }
-
-list($controllerKey, $actionKey) = explode('/', $pathInfo);
-
-$controller = $controllers[$controllerKey];
-
-$action = $actionKey . 'Action';
-$result = $controller->$action();
-
-$data = $result['data'];
-$template = 'templates/'.$result['view'].'.php';
-
-require_once $template;

@@ -1,0 +1,4 @@
+#ТОЛЬКО ДЛЯ СЕРВЕРАП APACH
+Options +FollowSymLinks
+RewriteEngine On
+RewriteRule ^(.*)$ index.php [NC,L]

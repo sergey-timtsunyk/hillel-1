@@ -1,18 +1,20 @@
 <?php
 
-require_once 'City.php';
+namespace App\Model\Database;
+
+use App\Model\City;
 
 class CityDb
 {
     /**
-     * @var PDO
+     * @var \PDO
      */
     private $pdo;
 
     /**
-     * @param PDO $pdo
+     * @param \PDO $pdo
      */
-    public function __construct(PDO $pdo)
+    public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
@@ -83,7 +85,7 @@ class CityDb
             )
         );
 
-        return $statement->fetchObject('City');
+        return $statement->fetchObject(City::class);
     }
 
     /**
@@ -97,8 +99,8 @@ class CityDb
             LEFT JOIN country cr on ct.country_id = cr.id;"
         );
         $statement->setFetchMode(
-            PDO::FETCH_CLASS,
-            'City'
+            \PDO::FETCH_CLASS,
+            City::class
         );
 
         return $statement->fetchAll();

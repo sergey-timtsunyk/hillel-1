@@ -1,5 +1,7 @@
 <?php
-require_once 'src/UserDb.php';
+namespace App\Controller;
+
+use App\Model\Database\UserDb;
 
 class UserController
 {
@@ -8,7 +10,7 @@ class UserController
      */
     private $userDb;
 
-    public function __construct(PDO $pdo)
+    public function __construct(\PDO $pdo)
     {
         $this->userDb = new UserDb($pdo);
     }

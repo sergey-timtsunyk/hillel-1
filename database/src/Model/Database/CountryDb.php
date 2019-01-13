@@ -1,19 +1,21 @@
 <?php
 
-require_once 'Country.php';
+namespace App\Model\Database;
+
+use App\Model\Country;
 
 class CountryDb
 {
     /**
-     * @var PDO
+     * @var \PDO
      */
     private $pdo;
 
     /**
      * CountryDb constructor.
-     * @param PDO $pdo
+     * @param \PDO $pdo
      */
-    public function __construct(PDO $pdo)
+    public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
     }
@@ -95,7 +97,7 @@ class CountryDb
             sprintf("SELECT * FROM country WHERE id = %s", $id)
         );
 
-        return $statement->fetchObject('Country');
+        return $statement->fetchObject(Country::class);
     }
 
     /**
@@ -105,8 +107,8 @@ class CountryDb
     {
         $statement = $this->pdo->query("SELECT * FROM country");
         $statement->setFetchMode(
-            PDO::FETCH_CLASS,
-            'Country'
+            \PDO::FETCH_CLASS,
+            Country::class
         );
 
         return $statement->fetchAll();
@@ -122,6 +124,6 @@ class CountryDb
             sprintf("SELECT * FROM country WHERE `name` = '%s'", $name)
         );
 
-        return $statement->fetchObject('Country');
+        return $statement->fetchObject(Country::class);
     }
 }

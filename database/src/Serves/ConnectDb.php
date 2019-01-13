@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Serves;
+
 class ConnectDb
 {
     public static function get()
@@ -9,6 +11,6 @@ class ConnectDb
         $password = '123';
         $options = [];
 
-        return new PDO($dsn, $username, $password, $options);
+        return new \PDO($dsn, $username, $password, $options);
     }
 }

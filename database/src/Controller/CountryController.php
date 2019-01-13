@@ -1,7 +1,9 @@
 <?php
 
-require_once 'src/CountryDb.php';
-require_once 'src/Country.php';
+namespace App\Controller;
+
+use App\Model\Database\CountryDb;
+use App\Model\Country;
 
 class CountryController
 {
@@ -10,7 +12,7 @@ class CountryController
      */
     private $countryDb;
 
-    public function __construct(PDO $pdo)
+    public function __construct(\PDO $pdo)
     {
         $this->countryDb = new CountryDb($pdo);
     }
