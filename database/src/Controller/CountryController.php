@@ -4,27 +4,25 @@ namespace App\Controller;
 
 use App\Model\Database\CountryDb;
 use App\Model\Country;
+use App\Serves\ConnectDb;
 
-class CountryController
+class CountryController extends Controller
 {
     /**
      * @var CountryDb
      */
     private $countryDb;
 
-    public function __construct(\PDO $pdo)
+    public function __construct()
     {
-        $this->countryDb = new CountryDb($pdo);
+        $this->countryDb = new CountryDb(ConnectDb::get());
     }
 
     public function showAction()
     {
         $countries = $this->countryDb->getAll();
 
-        return [
-            'data' => ['countries' => $countries],
-            'view' => 'countries/show_country'
-        ];
+        $this->view(['countries' => $countries], 'countries/show_country');
     }
 
     public function editAction()
@@ -56,15 +54,15 @@ class CountryController
             }
         }
 
-        return [
-            'data' => [
-                'error' => $validates,
-                'name' => $name,
-                'code' => $code,
-                'phone_code' => $phoneCode,
-            ],
-            'view' => 'countries/edit_country'
-        ];
+
+        $this->view([
+            'error' => $validates,
+            'name' => $name,
+            'code' => $code,
+            'phone_code' => $phoneCode,
+        ],
+            'countries/edit_country'
+        );
     }
 
     public function addAction()

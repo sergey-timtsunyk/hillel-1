@@ -3,15 +3,10 @@ namespace App\Controller;
 
 use App\Model\City;
 
-class MainController
+class MainController extends Controller
 {
     public function indexAction()
     {
-        $city = new City();
-
-        return [
-            'data' => '',
-            'view' => 'main/index'
-        ];
+        $this->view('', 'main/index');
     }
 }

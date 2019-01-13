@@ -2,38 +2,44 @@
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-#require_once 'autoload_custom.php';
-
 use App\Serves\ConnectDb;
+use PHPRouter\Route;
+use PHPRouter\RouteCollection;
+use PHPRouter\Router;
 
 try {
-    $pdo = ConnectDb::get();
+    $collection = new RouteCollection();
+    $collection->attachRoute(new Route('/users/show', array(
+        '_controller' => 'App\Controller\UserController::showAction',
+        'methods' => 'GET'
+    )));
 
-    $controllers = [
-        'users' => new App\Controller\UserController($pdo),
-        'countries' => new App\Controller\CountryController($pdo),
-        'cities' => new App\Controller\CitiesController($pdo),
-        'main' => new App\Controller\MainController(),
-    ];
+    $collection->attachRoute(new Route('/countries/show', array(
+        '_controller' => 'App\Controller\CountryController::showAction',
+        'methods' => 'GET'
+    )));
 
-    $pathInfo = current(explode('?', $_SERVER['REQUEST_URI']));
-    $pathInfo = ltrim($pathInfo, '/');
+    $collection->attachRoute(new Route('/countries/edit', array(
+        '_controller' => 'App\Controller\CountryController::editAction',
+        'methods' => 'GET'
+    )));
+    $collection->attachRoute(new Route('/countries/edit', array(
+        '_controller' => 'App\Controller\CountryController::editAction',
+        'methods' => 'POST'
+    )));
 
-    if (empty($pathInfo)) {
-        $pathInfo = 'main/index';
-    }
+    $collection->attachRoute(new Route('/countries/delete', array(
+        '_controller' => 'App\Controller\CountryController::deleteAction',
+        'methods' => 'GET'
+    )));
 
-    list($controllerKey, $actionKey) = explode('/', $pathInfo);
+    $collection->attachRoute(new Route('/', array(
+        '_controller' => 'App\Controller\MainController::indexAction',
+        'methods' => 'GET'
+    )));
 
-    $controller = $controllers[$controllerKey];
-
-    $action = $actionKey . 'Action';
-    $result = $controller->$action();
-
-    $data = $result['data'];
-    $template = 'templates/'.$result['view'].'.php';
-
-    require_once $template;
+    $router = new Router($collection);
+    $route = $router->matchCurrentRequest();
 
 } catch (\LogicException $e) {
     echo ($e->getMessage());
