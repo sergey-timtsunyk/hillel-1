@@ -1,106 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
-class Country
+use Doctrine\ActiveRecord\Dao\EntityDao;
+
+class Country extends EntityDao implements ModelInterface
 {
-    /**
-     * @var int
-     */
-    private $id;
+    protected $_tableName = 'country';
 
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var int
-     */
-    private $phone_code;
-
-    /**
-     * @var string
-     */
-    private $code;
-
-    /**
-     * @param string $name
-     * @param int $phone_code
-     * @param string $code
-     *
-     * @return Country
-     */
-    public static function instance(string $name, int $phone_code, string $code)
-    {
-        $self = new self();
-        $self->setName($name);
-        $self->setCode($code);
-        $self->setPhoneCode($phone_code);
-
-        return $self;
-    }
-
-    public function update(string $name, int $phone_code, string $code)
-    {
-        $this->setName($name);
-        $this->setPhoneCode($phone_code);
-        $this->setCode($code);
-    }
-
-    /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
 
-    /**
-     * @return int
-     */
-    public function getPhoneCode(): int
-    {
-        return $this->phone_code;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCode(): string
+    public function getCode()
     {
         return $this->code;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function getPhoneCode()
+    {
+        return $this->phone_code;
+    }
+
+    public function setName($name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @param int $phone_code
-     */
-    public function setPhoneCode(int $phone_code): void
-    {
-        $this->phone_code = $phone_code;
-    }
-
-    /**
-     * @param string $code
-     */
-    public function setCode(string $code): void
+    public function setCode($code)
     {
         $this->code = $code;
+
+        return $this;
+    }
+
+    public function setPhoneCode($phone)
+    {
+        $this->phone_code = $phone;
+
+        return $this;
     }
 }

@@ -1,34 +1,33 @@
 <?php
 namespace App\Controller;
 
-use App\Model\Database\UserDb;
+use App\Serves\FactoryModel;
 
-class UserController
+
+class UserController extends Controller
 {
     /**
-     * @var UserDb
+     * UserController constructor.
+     * @throws \Exception
      */
-    private $userDb;
-
-    public function __construct(\PDO $pdo)
+    public function __construct()
     {
-        $this->userDb = new UserDb($pdo);
+        $user = FactoryModel::getModel('User');
     }
 
     public function showAction()
     {
-        $users = $this->userDb->getAllUsers();
+        $user = FactoryModel::getModel('User');
+        $users = $user->findAll();
 
-        return [
-            'data' => ['users' => $users],
-            'view' => 'users/show_user'
-        ];
+        $this->view(['users' => $users], 'users/show_user');
     }
 
     public function editAction()
     {
         $id = $_GET['id'];
-        $user = $this->userDb->getUser($id);
+        $user = FactoryModel::getModel('User');
+        $user = $user->find($id);
 
         return [
             'data' => ['user' => $user],

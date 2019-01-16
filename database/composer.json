@@ -13,7 +13,8 @@
     },
     "require": {
         "php": "^7.1",
-        "dannyvankooten/php-router": "^1.2@alpha"
+        "dannyvankooten/php-router": "^1.2@alpha",
+        "symlex/doctrine-active-record": "^4.4"
     },
     "minimum-stability": "dev",
     "prefer-stable": true

@@ -2,33 +2,27 @@
 
 namespace App\Controller;
 
-use App\Model\Database\CountryDb;
 use App\Model\Country;
-use App\Serves\ConnectDb;
+use App\Serves\FactoryModel;
 
 class CountryController extends Controller
 {
-    /**
-     * @var CountryDb
-     */
-    private $countryDb;
-
-    public function __construct()
-    {
-        $this->countryDb = new CountryDb(ConnectDb::get());
-    }
-
     public function showAction()
     {
-        $countries = $this->countryDb->getAll();
+        /** @var Country $country */
+        $country = FactoryModel::getModel('Country');
+        $countries = $country->findAll();
 
         $this->view(['countries' => $countries], 'countries/show_country');
     }
 
     public function editAction()
     {
+        /** @var Country $country */
+        $country = FactoryModel::getModel('Country');
+
         if (array_key_exists('id', $_GET)) {
-            $country = $this->countryDb->getCountry($_GET['id']);
+            $country->find($_GET['id']);
         }
 
         $validates = [];
@@ -46,9 +40,12 @@ class CountryController extends Controller
             $this->validatePhoneCode($validates, $phoneCode);
 
             if (count($validates) === 0) {
-                $country->update($name, $phoneCode, $code);
+                $country
+                    ->setName($name)
+                    ->setCode($code)
+                    ->setPhoneCode($phoneCode);
 
-                $this->countryDb->edit($country);
+                $country->update();
 
                 $this->redirect('/countries/show');
             }
@@ -82,30 +79,35 @@ class CountryController extends Controller
             $this->validatePhoneCode($validates, $phoneCode);
 
             if (count($validates) === 0) {
-                $country = new Country();
-                $country->update($name, $phoneCode, $code);
+                /** @var Country $country */
+                $country = FactoryModel::getModel('Country');
 
-                $this->countryDb->create($country);
+                $country
+                    ->setName($name)
+                    ->setCode($code)
+                    ->setPhoneCode($phoneCode);
+
+                $country->save();
 
                 $this->redirect('/countries/show');
             }
         }
 
-        return [
-            'data' => [
-                'error' => $validates,
-                'name' => $name,
-                'code' => $code,
-                'phone_code' => $phoneCode,
-            ],
-            'view' => 'countries/add_country'
-        ];
+        $this->view([
+            'error' => $validates,
+            'name' => $name,
+            'code' => $code,
+            'phone_code' => $phoneCode,
+        ], 'countries/add_country');
     }
 
     public function deleteAction()
     {
         if (array_key_exists('id', $_GET)) {
-            $this->countryDb->delete($_GET['id']);
+            /** @var Country $country */
+            $country = FactoryModel::getModel('Country');
+            $country->find($_GET['id']);
+            $country->delete();
         }
 
         $this->redirect('/countries/show');
