@@ -1,37 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Model;
 
-class User
+use Doctrine\ActiveRecord\Dao\EntityDao;
+
+class User extends EntityDao implements ModelInterface
 {
-    private $id;
-    private $login;
-    private $status;
-    private $last_login;
-    private $password;
-
-    public function getLogin(): string
-    {
-        return $this->login;
-    }
-
-    public function getStatus()
-    {
-        return $this->status;
-    }
+    protected $_tableName = 'user';
 
     public function getLastLogin()
     {
         return $this->last_login;
     }
 
-    public function getId()
+    public function getLogin()
     {
-        return $this->id;
-    }
-
-    public function getPassword()
-    {
-        return $this->password;
+        return $this->login;
     }
 }

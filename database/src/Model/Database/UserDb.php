@@ -2,7 +2,7 @@
 
 namespace App\Model\Database;
 
-use App\Model\User;
+use App\Model\TestUser;
 
 class UserDb
 {
@@ -48,14 +48,14 @@ class UserDb
     }
 
     /**
-     * @return User[]
+     * @return TestUser[]
      */
     public function getAllUsers()
     {
         $statement = $this->pdo->query("SELECT * FROM user");
         $statement->setFetchMode(
             \PDO::FETCH_CLASS,
-            User::class
+            TestUser::class
         );
 
         return $statement->fetchAll();
@@ -63,7 +63,7 @@ class UserDb
 
     /**
      * @param $id
-     * @return User
+     * @return TestUser
      */
     public function getUser($id)
     {
@@ -71,7 +71,7 @@ class UserDb
             sprintf("SELECT * FROM user WHERE id = %s", $id)
         );
 
-        return $statement->fetchObject(User::class);
+        return $statement->fetchObject(TestUser::class);
     }
 
     public function deleteUser($id)

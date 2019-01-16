@@ -2,7 +2,7 @@
 
 namespace App\Model\Database;
 
-use App\Model\Country;
+use App\Model\TestCountry;
 
 class CountryDb
 {
@@ -20,7 +20,7 @@ class CountryDb
         $this->pdo = $pdo;
     }
 
-    public function create(Country $country)
+    public function create(TestCountry $country)
     {
         if (empty($country->getName()) && empty($country->getCode()) && empty($country->getPhoneCode())) {
             echo '<p style="color: red; size: ledger">Для страны все поля доллжны быть запролнены!';
@@ -29,7 +29,7 @@ class CountryDb
 
         $countryCheck = $this->getCountryByName($country->getName());
 
-        if ($countryCheck instanceof Country) {
+        if ($countryCheck instanceof TestCountry) {
             echo sprintf('<p style="color: red; size: ledger">Страна с названием "%s" уже существует!', $country->getName()) ;
             return;
         }
@@ -46,7 +46,7 @@ class CountryDb
         }
     }
 
-    public function edit(Country $country)
+    public function edit(TestCountry $country)
     {
         if (empty($country->getId())) {
             echo '<p style="color: red; size: ledger">Обьект страны нужно создать!';
@@ -60,7 +60,7 @@ class CountryDb
 
         $countryCheck = $this->getCountryByName($country->getName());
 
-        if ($countryCheck instanceof Country && $countryCheck->getId() != $country->getId()) {
+        if ($countryCheck instanceof TestCountry && $countryCheck->getId() != $country->getId()) {
             echo sprintf('<p style="color: red; size: ledger">Страна с названием "%s" уже существует!', $country->getName()) ;
             return;
         }
@@ -89,7 +89,7 @@ class CountryDb
 
     /**
      * @param $id
-     * @return Country
+     * @return TestCountry
      */
     public function getCountry($id)
     {
@@ -97,18 +97,18 @@ class CountryDb
             sprintf("SELECT * FROM country WHERE id = %s", $id)
         );
 
-        return $statement->fetchObject(Country::class);
+        return $statement->fetchObject(TestCountry::class);
     }
 
     /**
-     * @return Country[]
+     * @return TestCountry[]
      */
     public function getAll()
     {
         $statement = $this->pdo->query("SELECT * FROM country");
         $statement->setFetchMode(
             \PDO::FETCH_CLASS,
-            Country::class
+            TestCountry::class
         );
 
         return $statement->fetchAll();
@@ -116,7 +116,7 @@ class CountryDb
 
     /**
      * @param $name
-     * @return Country
+     * @return TestCountry
      */
     public function getCountryByName($name)
     {
@@ -124,6 +124,6 @@ class CountryDb
             sprintf("SELECT * FROM country WHERE `name` = '%s'", $name)
         );
 
-        return $statement->fetchObject(Country::class);
+        return $statement->fetchObject(TestCountry::class);
     }
 }

@@ -9,7 +9,7 @@ echo "<h1>Users</h1> <table border='1' style='width:80%'>
     <th>Action</th>
   </tr>";
 
-/** @var User $user */
+/** @var App\Model\User $user */
 foreach ($data['users'] as $user) {
     echo "<tr>
         <td>{$user->getId()}</td>
