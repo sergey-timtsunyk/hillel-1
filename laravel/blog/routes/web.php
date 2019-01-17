@@ -16,4 +16,13 @@ Route::get('/', function () {
 });
 
 Route::get('countries', 'CountryController@show');
+Route::get('countries/edit/{country}', 'CountryController@edit');
+Route::post('countries/edit/{country}', 'CountryController@edit');
+Route::get('countries/add', 'CountryController@add');
+Route::post('countries/add', 'CountryController@add');
+Route::get('countries/delete/{country}', 'CountryController@delete');
+
+
+
 Route::get('cities', 'CityController@show');
+Route::get('cities/add', 'CityController@add');

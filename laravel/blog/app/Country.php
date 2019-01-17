@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Country extends Model
 {
+    public $timestamps = false;
     protected $table = 'country';
 
     public function getId()
@@ -28,6 +29,21 @@ class Country extends Model
     public function getPhoneCode()
     {
         return $this->phone_code;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public function setCode($code)
+    {
+        $this->code = $code;
+    }
+
+    public function setPhoneCode($phone_code)
+    {
+        $this->phone_code = $phone_code;
     }
 
     public function getCities()

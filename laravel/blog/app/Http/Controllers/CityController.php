@@ -12,4 +12,9 @@ class CityController
     {
         return view('city.show', ['cities' => City::all()]);
     }
+
+    public function add($city)
+    {
+        return view('city.add');
+    }
 }
